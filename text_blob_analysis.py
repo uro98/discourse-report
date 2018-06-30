@@ -33,7 +33,6 @@ def get_approval_ratio(person, number, includeRetweets):
             i += 1
         tweets = [i for j, i in enumerate(tweets) if j not in indices]
 
-    posCount = 0
     negCount = 0
     for tweet in tweets:
         text = TextBlob(tweet.text)
