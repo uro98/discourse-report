@@ -32,8 +32,15 @@ def get_approval_ratio(person, number):
         else:
             neutral += 1
 
-    if negative==0:
-        negative = 1
-    ratio = (positive*100.0)/(positive+negative)
+        #print polarity, text
+
+    if positive==0 and negative==0:
+        ratio = 50
+    elif positive==0:
+        ratio = 0
+    elif negative==0:
+        ratio = 100
+    else:
+        ratio = (positive*100.0)/(positive+negative)
 
     return [positive, neutral, negative, ratio]
