@@ -38,14 +38,7 @@ def get_approval_ratio(person, number, includeRetweets):
     for tweet in tweets:
         text = TextBlob(tweet.text)
         polarity = text.sentiment.polarity
-        if polarity > 0:
-            posCount += 1
         if polarity < 0:
             negCount += 1
-            
-    if posCount==0 and negCount==0:
-        ratio = 50
-    else:
-        ratio = (posCount*100.0)/(posCount+negCount)
 
-    return [negCount, len(tweets), ratio]
+    return [negCount, len(tweets)]
