@@ -17,7 +17,9 @@ auth.set_access_token(access_key, access_secret)
 api = tweepy.API(auth, wait_on_rate_limit=True)
 
 
-politicians = ["Theresa May", "Jeremy Corbyn", "Boris Johnson", "Nicola Sturgeon", "Sadiq Khan", "Philip Hammond", "John Bercow", "Michel Barnier"]
+politicians = ["Theresa May", "Jeremy Corbyn", "Boris Johnson", "Nicola Sturgeon", "Sadiq Khan", "Philip Hammond", "John Bercow", "Michel Barnier", "Arlene Foster"]
+number = 100
+includeRetweets = True
 
 negatives={"Theresa May":0, "Jeremy Corbyn":0, "Boris Johnson":0, "Nicola Sturgeon":0, "Sadiq Khan":0, "Philip Hammond":0, "John Bercow":0, "Michel Barnier":0}
 totals={"Theresa May":0, "Jeremy Corbyn":0, "Boris Johnson":0, "Nicola Sturgeon":0, "Sadiq Khan":0, "Philip Hammond":0, "John Bercow":0, "Michel Barnier":0}
@@ -26,7 +28,7 @@ totals={"Theresa May":0, "Jeremy Corbyn":0, "Boris Johnson":0, "Nicola Sturgeon"
 
 while 1:
     for politician in politicians:
-        [neg, total] = get_approval_ratio(politician, 100)
+        [positive, neutral, negative, ratio] = get_approval_ratio(politician, number, includeRetweets)
 
         negatives[polititcan]+=neg
         totals[politician]+=total

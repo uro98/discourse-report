@@ -16,14 +16,28 @@ auth.set_access_token(access_key, access_secret)
 
 api = tweepy.API(auth)
 
-def get_approval_ratio(person, number):
+def get_approval_ratio(person, number, includeRetweets):
     tweets = api.search(person,'en',count = number)
+
+    if not includeRetweets:
+        indices = []
+        i = 0
+        for tweet in tweets:
+            text = tweet.text.encode('utf-8')
+            try:
+                start = text[0:4]
+            except:
+                start = ""
+            if start=="RT @":
+                indices.append(i)
+            i += 1
+        tweets = [i for j, i in enumerate(tweets) if j not in indices]
 
     negCount = 0
     for tweet in tweets:
         text = TextBlob(tweet.text)
         polarity = text.sentiment.polarity
         if polarity < 0:
-            negative += 1
+            negCount += 1
 
     return [negCount, len(tweets)]
