@@ -36,13 +36,14 @@ while 1:
 
         print(politician ,negatives[politician], "/" ,totals[politician])
 
-    if time.localtime()[4]==0 or time.localtime()[4]==30:
-        ratios=[round(negatives['key']/totals['key'] , 2) for key in politician]
-        status="Theresa May: {}\n Jeremy Corbyn:{}\nBoris Johnson:{}\nNicola Sturgeon:{}\nSadiq Khan:{}\nPhilip Hammond:{}\nJohn Bercow:{}\nMichel Barnier".format()
+    if time.localtime()[4]==33 or time.localtime()[4]==0:
+        ratios=[round(100*negatives[key]/totals[key] , 2) for key in politicians]
+        status="Theresa May: {}%\n Jeremy Corbyn:{}%\nBoris Johnson:{}%\nNicola Sturgeon:{}%\nSadiq Khan:{}%\nPhilip Hammond:{}%\nJohn Bercow:{}%\nMichel Barnier{}%\n".format(*ratios)
 
         print(status)
 
+        api.update_status(status)
         for key in politicians:
             negatives[key]=0
             totals[key]=0
-    time.sleep(60)
+    time.sleep(60-time.localtime()[5])
