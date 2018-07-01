@@ -19,7 +19,7 @@ auth.set_access_token(access_key, access_secret)
 api = tweepy.API(auth, wait_on_rate_limit=True)
 
 
-politicians = ["Theresa May", "Jeremy Corbyn", "Boris Johnson", "Nicola Sturgeon", "Sadiq Khan", "Philip Hammond", "John Bercow", "Michel Barnier", "Arlene Foster"]
+politicians = ["Theresa May", "Jeremy Corbyn", "Nicola Sturgeon",  "Arlene Foster","Tim Farron", "Caroline Lucas"]
 number = 100
 includeRetweets = True
 
@@ -28,6 +28,20 @@ totals={politician : 0 for politician in politicians}
 
 
 while 1:
+    if time.localtime()[4]==5 or time.localtime()[4]==30:
+        ratios={key:round(100*negatives[key]/totals[key] , 2) for key in politicians}
+        status="Negative tweets as percentage of overall: \n "
+
+        for politician in politicians:
+            status+="\n"+politician+": "+str(ratios[politician])+"%"
+
+        print(status)
+
+        api.update_status(status)
+        for key in politicians:
+            negatives[key]=0
+            totals[key]=0
+
     for politician in politicians:
         [negative,total] = get_approval_ratio(politician, number, includeRetweets)
 
@@ -36,14 +50,4 @@ while 1:
 
         print(politician ,negatives[politician], "/" ,totals[politician])
 
-    if time.localtime()[4]==33 or time.localtime()[4]==0:
-        ratios=[round(100*negatives[key]/totals[key] , 2) for key in politicians]
-        status="Theresa May: {}%\n Jeremy Corbyn:{}%\nBoris Johnson:{}%\nNicola Sturgeon:{}%\nSadiq Khan:{}%\nPhilip Hammond:{}%\nJohn Bercow:{}%\nMichel Barnier{}%\n".format(*ratios)
-
-        print(status)
-
-        api.update_status(status)
-        for key in politicians:
-            negatives[key]=0
-            totals[key]=0
     time.sleep(60-time.localtime()[5])
