@@ -33,7 +33,7 @@ totals={politician : 0 for politician in politicians}
 
 
 while 1:
-    if time.localtime()[4]==05 or or time.localtime()[4]==20 or time.localtime()[4]==35 or time.localtime()[4]==50:
+    if time.localtime()[4]==05 or time.localtime()[4]==20 or time.localtime()[4]==35 or time.localtime()[4]==50:
         ratios={key:round(100*negatives[key]/totals[key] , 2) for key in politicians}
         status="Here's how many tweets about these people have been negative: \n "
 
