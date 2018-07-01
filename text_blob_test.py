@@ -28,7 +28,7 @@ totals={"Theresa May":0, "Jeremy Corbyn":0, "Boris Johnson":0, "Nicola Sturgeon"
 
 while 1:
     for politician in politicians:
-        [positive, neutral, negative, ratio] = get_approval_ratio(politician, number, includeRetweets)
+        [negative,total] = get_approval_ratio(politician, number, includeRetweets)
 
         negatives[polititcan]+=neg
         totals[politician]+=total
