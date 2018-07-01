@@ -1,4 +1,5 @@
 import tweepy
+import config
 from tweepy import OAuthHandler
 import csv
 from textblob import TextBlob

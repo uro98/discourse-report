@@ -1,8 +1,10 @@
+import config
 from text_blob_analysis import *
 import tweepy
 from tweepy import OAuthHandler
 import time
-from statistics import mean
+
+
 import sys
 
 sys.setdefaultencoding('utf8')
@@ -21,19 +23,20 @@ politicians = ["Theresa May", "Jeremy Corbyn", "Boris Johnson", "Nicola Sturgeon
 number = 100
 includeRetweets = True
 
-negatives={"Theresa May":0, "Jeremy Corbyn":0, "Boris Johnson":0, "Nicola Sturgeon":0, "Sadiq Khan":0, "Philip Hammond":0, "John Bercow":0, "Michel Barnier":0}
-totals={"Theresa May":0, "Jeremy Corbyn":0, "Boris Johnson":0, "Nicola Sturgeon":0, "Sadiq Khan":0, "Philip Hammond":0, "John Bercow":0, "Michel Barnier":0}
-
+negatives={politician : 0 for politician in politicians}
+totals={politician : 0 for politician in politicians}
 
 
 while 1:
     for politician in politicians:
         [negative,total] = get_approval_ratio(politician, number, includeRetweets)
 
-        negatives[polititcan]+=neg
+        negatives[politician]+=negative
         totals[politician]+=total
 
-    if time.localtime()['tm_min']==0 or time.localtime()['tm_min']==30:
+        print(politician ,negatives[politician], "/" ,totals[politician])
+
+    if time.localtime()[4]==0 or time.localtime()[4]==30:
         ratios=[round(negatives['key']/totals['key'] , 2) for key in politician]
         status="Theresa May: {}\n Jeremy Corbyn:{}\nBoris Johnson:{}\nNicola Sturgeon:{}\nSadiq Khan:{}\nPhilip Hammond:{}\nJohn Bercow:{}\nMichel Barnier".format()
 
