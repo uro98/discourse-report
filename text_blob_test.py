@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import config
 from text_blob_analysis import *
 import tweepy
@@ -18,6 +21,7 @@ auth.set_access_token(access_key, access_secret)
 
 api = tweepy.API(auth, wait_on_rate_limit=True)
 
+lastratios=0;
 
 politicians = ["Theresa May", "Jeremy Corbyn", "Nicola Sturgeon",  "Arlene Foster","Tim Farron", "Caroline Lucas"]
 number = 100
@@ -28,16 +32,28 @@ totals={politician : 0 for politician in politicians}
 
 
 while 1:
-    if time.localtime()[4]==5 or time.localtime()[4]==30:
+    if time.localtime()[4]==43 or time.localtime()[4]==45:
         ratios={key:round(100*negatives[key]/totals[key] , 2) for key in politicians}
         status="Negative tweets as percentage of overall: \n "
 
         for politician in politicians:
-            status+="\n"+politician+": "+str(ratios[politician])+"%"
+            if lastratios:
+                if lastratios[politician]>ratios[politician]:
+                    emoji="⬇️"
+                elif lastratios[politician]<ratios[politician]:
+                    emoji= "⬆️"
+                else: emoji=""
+
+            else:
+                emoji=""
+
+
+            status+="\n"+politician+": "+str(ratios[politician])+"%" + emoji
 
         print(status)
 
         api.update_status(status)
+        lastratios=ratios
         for key in politicians:
             negatives[key]=0
             totals[key]=0
