@@ -23,7 +23,8 @@ api = tweepy.API(auth, wait_on_rate_limit=True)
 
 lastratios=0;
 
-politicians = ["Theresa May", "Jeremy Corbyn", "Nicola Sturgeon",  "Arlene Foster","Tim Farron", "Caroline Lucas"]
+politicians = ["Theresa May", "Jeremy Corbyn", "Nicola Sturgeon",  "Arlene Foster","Tim Farron",     "Caroline Lucas"]
+blankspaces = ["           ", "       ",       "     ",            "          ",   "              ", "        "      ]
 number = 100
 includeRetweets = True
 
@@ -32,23 +33,24 @@ totals={politician : 0 for politician in politicians}
 
 
 while 1:
-    if time.localtime()[4]==00 or time.localtime()[4]==30:
+    if time.localtime()[4]==05 or or time.localtime()[4]==20 or time.localtime()[4]==35 or time.localtime()[4]==50:
         ratios={key:round(100*negatives[key]/totals[key] , 2) for key in politicians}
-        status="Negative tweets as percentage of overall: \n "
+        status="Here's how many tweets about these people have been negative: \n "
 
-        for politician in politicians:
+        for i in range(0, len(politicians)):
+            politician = politicians[i]
             if lastratios:
                 if lastratios[politician]>ratios[politician]:
-                    emoji="⬇️"
+                    emoji="🔽"
                 elif lastratios[politician]<ratios[politician]:
-                    emoji= "⬆️"
-                else: emoji=""
+                    emoji= "🔼"
+                else: emoji="➖"
 
             else:
                 emoji=""
 
 
-            status+="\n"+politician+": "+str(ratios[politician])+"%" + emoji
+            status+="\n" + politician + ":" + blankspaces[i] + str(ratios[politician]) + "%" + emoji
 
         print(status)
 
