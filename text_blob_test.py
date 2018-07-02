@@ -31,11 +31,14 @@ includeRetweets = True
 negatives={politician : 0 for politician in politicians}
 totals={politician : 0 for politician in politicians}
 
+noon=True;
 
 while 1:
-    if time.localtime()[4]==05 or time.localtime()[4]==20 or time.localtime()[4]==35 or time.localtime()[4]==50:
+    if (time.localtime()[3]==0 and noon) or (time.localtime()[3]==12 and not noon) :
+        if noon:noon=False
+        else: noon=True
         ratios={key:round(100*negatives[key]/totals[key] , 2) for key in politicians}
-        status="Here's how many tweets about these people have been negative: \n "
+        status="Negative tweets as percentage of overall: \n "
 
         for i in range(0, len(politicians)):
             politician = politicians[i]
@@ -50,7 +53,7 @@ while 1:
                 emoji=""
 
 
-            status+="\n" + politician + ":" + blankspaces[i] + str(ratios[politician]) + "%" + emoji
+            status+="\n" + politician + ":" + blankspaces[i] + str(ratios[politician]) + "% " + emoji
 
         print(status)
 
@@ -68,4 +71,4 @@ while 1:
 
         print(politician ,negatives[politician], "/" ,totals[politician])
 
-    time.sleep(60-time.localtime()[5])
+    time.sleep(300)
